@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('bungie-login');
 })->name('home');
 
+Route::get('/check-list', function () {
+    return view('checklist');
+})->name('checklist');
+
 Route::get('/bungie/login', [BungieAuthController::class, 'redirectToBungie'])->name('bungie.login');
 Route::get('/bungie/redirect', [BungieAuthController::class, 'handleBungieCallback'])->name('bungie.redirect');
 
