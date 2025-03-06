@@ -2,15 +2,15 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BungieAuthController;
+use App\Http\Controllers\ChecklistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('bungie-login');
 })->name('home');
 
-Route::get('/check-list', function () {
-    return view('checklist');
-})->name('checklist');
+Route::get('/checklist', [ChecklistController::class, 'index'])->name('checklist');
+Route::post('/checklist', [ChecklistController::class, 'post'])->name('checklist.submit');
 
 Route::get('/bungie/login', [BungieAuthController::class, 'redirectToBungie'])->name('bungie.login');
 Route::get('/bungie/redirect', [BungieAuthController::class, 'handleBungieCallback'])->name('bungie.redirect');
