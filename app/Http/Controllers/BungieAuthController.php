@@ -23,7 +23,7 @@ class BungieAuthController extends Controller
         $apiKey = env('BUNGIE_API_KEY');
         $redirectUri = route('bungie.redirect');
 
-        dd($response);
+        dd($request);
 
         $response = Http::asForm()->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
