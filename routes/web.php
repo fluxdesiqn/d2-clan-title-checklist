@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BungieAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('bungie-login');
+})->name('home');
+
+Route::get('/bungie/login', [BungieAuthController::class, 'redirectToBungie'])->name('bungie.login');
+Route::get('/bungie/redirect', [BungieAuthController::class, 'handleBungieCallback'])->name('bungie.redirect');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
