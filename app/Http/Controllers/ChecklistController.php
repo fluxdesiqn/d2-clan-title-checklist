@@ -117,11 +117,6 @@ class ChecklistController extends Controller
         }
 
         $recordData = $recordResponse->json();
-
-        if (!isset($recordData[$title->title_hash])) {
-            return response()->json(['error' => 'Title hash not found in DestinyRecordDefinition'], 404);
-        }
-
         dd($recordData);
 
         $titleData = $recordData[$title->title_hash];
