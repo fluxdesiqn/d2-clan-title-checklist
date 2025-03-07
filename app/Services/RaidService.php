@@ -80,13 +80,11 @@ class RaidService
                    isset($activity['tier']) && $activity['tier'] == 0 &&
                    isset($activity['matchmaking']['minParty']) && $activity['matchmaking']['minParty'] == 1 &&
                    isset($activity['matchmaking']['maxParty']) && $activity['matchmaking']['maxParty'] == 6;
-        })->mapToGroups(function ($activity) {
+        })->map(function ($activity) {
             // Remove anything after ':'
             $name = explode(':', $activity['displayProperties']['name'])[0];
-            return [$name => $activity];
-        })->map(function ($activities) {
-            return $activities->unique()->values()->all();
-        })->all();
+            return trim($name);
+        })->unique()->values()->all();
 
         return $raids;
     }

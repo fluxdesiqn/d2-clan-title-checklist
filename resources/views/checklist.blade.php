@@ -20,18 +20,17 @@
                         <div>
                             <label for="raid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Raid:</label>
                             <select id="raid" name="raid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                @foreach ($raids as $raid)
-                                    <option value="{{ $raid['hash'] }}">{{ $raid['displayProperties']['name'] }}</option>
+                                @foreach ($raids as $raidName => $raidData)
+                                    <option value="{{ $raidName }}">{{ $raidName }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div>
                             <label for="encounter" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Encounter:</label>
                             <select id="encounter" name="encounter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                <option value="encounter1">Encounter 1</option>
-                                <option value="encounter2">Encounter 2</option>
-                                <option value="encounter3">Encounter 3</option>
-                                <!-- Add more encounter options as needed -->
+                                @for ($i = 1; $i <= 6; $i++)
+                                    <option value="{{ $i }}">Encounter {{ $i }}</option>
+                                @endfor
                             </select>
                         </div>
                         <div>
