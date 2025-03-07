@@ -88,6 +88,7 @@ class ChecklistController extends Controller
     {
         $title = Title::where('name', Str::slug($activity))->first();
 
+        dd($title);
         if (!$title) {
             return response()->json(['error' => 'Title not found'], 404);
         }
