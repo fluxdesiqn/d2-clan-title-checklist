@@ -31,6 +31,8 @@ class BungieAuthController extends Controller
 
         $token = $response->json();
 
+        dd($token);
+
         session()->put('bungie_token', $token);
         session()->put('bungie_membership_id', $request->query('membership_id'));
 
