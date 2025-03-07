@@ -20,7 +20,7 @@
                         <div>
                             <label for="raid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Raid:</label>
                             <select id="raid" name="raid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                @foreach ($raids as $raidName => $raidData)
+                                @foreach ($raids as $raidName)
                                     <option value="{{ $raidName }}">{{ $raidName }}</option>
                                 @endforeach
                             </select>

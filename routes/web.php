@@ -10,7 +10,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/checklist', [ChecklistController::class, 'index'])->name('checklist');
-Route::post('/checklist', [ChecklistController::class, 'post'])->name('checklist.submit');
+Route::post('/checklist', [ChecklistController::class, 'submit'])->name('checklist.submit');
 
 Route::get('/bungie/login', [BungieAuthController::class, 'redirectToBungie'])->name('bungie.login');
 Route::get('/bungie/redirect', [BungieAuthController::class, 'handleBungieCallback'])->name('bungie.redirect');
