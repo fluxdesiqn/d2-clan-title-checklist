@@ -29,6 +29,7 @@ class ChecklistController extends Controller
 
     public function submit(Request $request)
     {
+        dd($request->all());
         $guardians = [];
         for ($i = 1; $i <= 6; $i++) {
             $platform = $request->input("platform{$i}");
