@@ -11,7 +11,12 @@ class BungieAuthController extends Controller
     {
         $clientId = env('BUNGIE_CLIENT_ID');
         $redirectUri = route('bungie.redirect');
-        $url = "https://www.bungie.net/en/OAuth/Authorize?client_id={$clientId}&response_type=code&redirect_uri={$redirectUri}";
+
+        // Generate a random 8-digit string for state
+        $state = bin2hex(random_bytes(4));
+        Session::put('bungie_state', $state);
+
+        $url = "https://www.bungie.net/en/OAuth/Authorize?client_id={$clientId}&response_type=code&redirect_uri={$redirectUri}&state={$state}";
 
         return redirect($url);
     }
@@ -21,12 +26,14 @@ class BungieAuthController extends Controller
         // Data from Bungie
         $code = $request->query('code');
         $apiKey = env('BUNGIE_API_KEY');
+        $state = Session::get('bungie_state');
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $apiKey,
         ])->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
             'code' => $code,
+            'state' => $state,
         ]);
 
         $token = $response->json();
