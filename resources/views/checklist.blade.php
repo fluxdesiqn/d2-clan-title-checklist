@@ -11,9 +11,27 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('checklist.submit') }}" method="POST" class="space-y-6">
                         @csrf
+                        <div class="flex space-x-4">
+                            <div class="flex-1">
+                                <label for="raid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Raid:</label>
+                                <select id="raid" name="raid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                    @foreach ($raids as $raidName)
+                                        <option value="{{ $raidName }}">{{ $raidName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <label for="encounter" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Encounter:</label>
+                                <select id="encounter" name="encounter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                    @for ($i = 1; $i <= 6; $i++)
+                                        <option value="{{ $i }}">Encounter {{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="flex space-x-4">
-                                <div class="flex-1">
+                                <div class="w-1/3">
                                     <label for="platform{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Platform {{ $i }}:</label>
                                     <select id="platform{{ $i }}" name="platform{{ $i }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                         <option value="1">Xbox</option>
@@ -21,28 +39,12 @@
                                         <option value="3">Steam</option>
                                     </select>
                                 </div>
-                                <div class="flex-1">
+                                <div class="w-2/3">
                                     <label for="guardian{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Guardian {{ $i }}:</label>
                                     <input type="text" id="guardian{{ $i }}" name="guardian{{ $i }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 </div>
                             </div>
                         @endfor
-                        <div>
-                            <label for="raid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Raid:</label>
-                            <select id="raid" name="raid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                @foreach ($raids as $raidName)
-                                    <option value="{{ $raidName }}">{{ $raidName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="encounter" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Encounter:</label>
-                            <select id="encounter" name="encounter" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                @for ($i = 1; $i <= 6; $i++)
-                                    <option value="{{ $i }}">Encounter {{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
                         <div>
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">Submit</button>
                         </div>

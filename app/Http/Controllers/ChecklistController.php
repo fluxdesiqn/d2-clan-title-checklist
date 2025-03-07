@@ -56,6 +56,8 @@ class ChecklistController extends Controller
                 'Authorization' => 'Bearer ' . $token,
             ])->get("https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/{$platform}/{$guardianName}/");
 
+            dd($membershipResponse);
+
             if ($membershipResponse->failed() || empty($membershipResponse->json()['Response'])) {
                 continue;
             }
