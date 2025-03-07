@@ -24,6 +24,8 @@ class ChecklistController extends Controller
         $apiKey = env('BUNGIE_API_KEY');
         $token = Session::get('bungie_token');
 
+        dd($token);
+
         $response = Http::withHeaders([
             'X-API-Key' => $apiKey,
             'Authorization' => 'Bearer ' . $token,
