@@ -27,11 +27,11 @@ class BungieAuthController extends Controller
         // Data from Bungie
         $code = $request->query('code');
         $clientId = env('BUNGIE_CLIENT_ID');
-        $clientSecret = env('BUNGIE_API_KEY');
+        $clientSecret = env('BUNGIE_CLIENT_SECRET');
         $state = Session::get('bungie_state');
 
         $response = Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode($clientSecret),
+            'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
         ])->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
             'code' => $code,
