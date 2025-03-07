@@ -22,8 +22,8 @@ class BungieAuthController extends Controller
         $code = $request->query('code');
         $apiKey = env('BUNGIE_API_KEY');
 
-        $response = Http::asForm()->withHeaders([
-            'Authorization' => 'Basic ' . $apiKey,
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $apiKey,
         ])->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
             'code' => $code,
