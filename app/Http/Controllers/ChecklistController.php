@@ -106,13 +106,13 @@ class ChecklistController extends Controller
         $apiKey = env('BUNGIE_API_KEY');
         $token = session('bungie_token');
 
+        dd($title->title_hash, $token);
+
         // Make API call to get triumphs required for the title
         $triumphsResponse = Http::withHeaders([
             'X-API-Key' => $apiKey,
             'Authorization' => 'Bearer ' . $token,
         ])->get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyRecordDefinition/{$title->title_hash}/");
-
-        dd($triumphsResponse->json(), $title->title_hash, $token);
 
         if ($triumphsResponse->failed() || empty($triumphsResponse->json()['Response'])) {
             return response()->json(['error' => 'Failed to fetch triumphs'], 500);
