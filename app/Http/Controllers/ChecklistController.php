@@ -36,7 +36,8 @@ class ChecklistController extends Controller
 
         $raids = $this->getRaidActivities($manifestData, $raidActivityTypeHash);
 
-        dd($raids[0], $raids);
+        dd($raids);
+
         return $raids;
     }
 
@@ -93,6 +94,8 @@ class ChecklistController extends Controller
                    isset($activity['tier']) && $activity['tier'] == 0 &&
                    isset($activity['matchmaking']['minParty']) && $activity['matchmaking']['minParty'] == 1 &&
                    isset($activity['matchmaking']['maxParty']) && $activity['matchmaking']['maxParty'] == 6;
+        })->map(function ($activity) {
+            return $activity['displayProperties']['name'];
         })->values()->all();
 
         return $raids;
