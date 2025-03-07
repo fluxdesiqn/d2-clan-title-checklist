@@ -31,7 +31,7 @@ class BungieAuthController extends Controller
         $state = Session::get('bungie_state');
 
         $response = Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
+            'Authorization' => 'Basic ' . base64_encode($clientSecret),
         ])->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
             'code' => $code,
