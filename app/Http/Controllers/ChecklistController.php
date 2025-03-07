@@ -54,6 +54,8 @@ class ChecklistController extends Controller
                 'X-API-Key' => $apiKey,
             ])->get("https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/{$platform}/{$guardianName}/");
 
+            dd($membershipResponse->json());
+
             if ($membershipResponse->failed() || empty($membershipResponse->json()['Response'])) {
                 continue;
             }
