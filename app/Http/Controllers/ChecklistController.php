@@ -88,13 +88,13 @@ class ChecklistController extends Controller
     {
         $title = Title::where('name', Str::slug($activity))->first();
 
-        dd($title);
         if (!$title) {
             return response()->json(['error' => 'Title not found'], 404);
         }
 
         $apiKey = env('BUNGIE_API_KEY');
         $token = session('bungie_token');
+        dd($title->title_hash, $token);
 
         // Make API call to get triumphs required for the title
         $triumphsResponse = Http::withHeaders([
