@@ -6,7 +6,7 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-function updateForm() {
+window.updateForm = function() {
     const activityType = document.getElementById('activityType').value;
     const activitySelect = document.getElementById('activity');
     const encounterSelect = document.getElementById('encounter');
