@@ -52,7 +52,11 @@ class BungieAuthController extends Controller
 
         $token = $response->json();
 
-        session()->put('bungie_token', $token);
+        if (!isset($token['access_token'])) {
+            return redirect('/')->with('error', 'Failed to get OAuth token from Bungie');
+        }
+
+        session()->put('bungie_token', $token['access_token']);
         session()->put('bungie_membership_id', $token['membership_id'] ?? null);
 
         return redirect('checklist')->with('success', 'Logged in with Bungie!');
