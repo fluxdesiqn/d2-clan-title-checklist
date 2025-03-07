@@ -117,7 +117,7 @@ class ChecklistController extends Controller
         }
 
         $recordData = $recordResponse->json();
-        dd($recordData);
+        dd($recordData, $title);
 
         $titleData = $recordData[$title->title_hash];
         $triumphsData = $titleData['completionInfo']['requirements']['records'] ?? [];
