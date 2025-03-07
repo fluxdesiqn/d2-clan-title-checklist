@@ -29,20 +29,8 @@ class ChecklistController extends Controller
 
     public function submit(Request $request)
     {
-        dd($request->all());
-        $guardians = [];
-        for ($i = 1; $i <= 6; $i++) {
-            $platform = $request->input("platform{$i}");
-            $guardian = $request->input("guardian{$i}");
-            $code = $request->input("code{$i}");
-            if ($platform && $guardian) {
-                $guardians[] = [
-                    'platform' => $platform,
-                    'guardian' => $guardian,
-                    'code' => $code,
-                ];
-            }
-        }
+        $guardians = $request->input('guardians');
+        dd($guardians);
 
         $titleTriumphs = $this->getTitleTriumphs($request->input('activity'));
         dd($titleTriumphs);
