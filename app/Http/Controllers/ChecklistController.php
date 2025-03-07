@@ -63,11 +63,13 @@ class ChecklistController extends Controller
             // Make API call to get profile information
             $profileResponse = Http::withHeaders([
                 'X-API-Key' => $apiKey,
-            ])->get("https://www.bungie.net/Platform/Destiny2/{$platform}/Profile/{$membershipId}/?components=Profiles");
+            ])->get("https://www.bungie.net/Platform/Destiny2/{$platform}/Profile/{$membershipId}/?components=900");
 
             if ($profileResponse->failed() || empty($profileResponse->json()['Response'])) {
                 continue;
             }
+
+            dd($profileResponse->json());
 
             $profileData = $profileResponse->json()['Response']['profile']['data'];
 
