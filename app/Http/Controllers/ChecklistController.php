@@ -22,9 +22,26 @@ class ChecklistController extends Controller
     private function getRaids()
     {
         $apiKey = env('BUNGIE_API_KEY');
-        $token = Session::get('bungie_token');
+        $token = Session::get('bungie_token')['access_token'];
 
-        // Step 1: Get the manifest
+        $manifestData = $this->getManifest($apiKey, $token);
+        if (empty($manifestData)) {
+            return [];
+        }
+
+        $raidActivityTypeHash = $this->getRaidActivityTypeHash($manifestData);
+        if (!$raidActivityTypeHash) {
+            return [];
+        }
+
+        $raids = $this->getRaidActivities($manifestData, $raidActivityTypeHash);
+
+        dd($raids);
+        return $raids;
+    }
+
+    private function getManifest($apiKey, $token)
+    {
         $manifestResponse = Http::withHeaders([
             'X-API-Key' => $apiKey,
             'Authorization' => 'Bearer ' . $token,
@@ -34,12 +51,33 @@ class ChecklistController extends Controller
             return [];
         }
 
-        $manifestData = $manifestResponse->json();
+        return $manifestResponse->json();
+    }
 
-        // Step 2: Extract the URL for DestinyActivityDefinition
+    private function getRaidActivityTypeHash($manifestData)
+    {
+        $activityModeDefinitionPath = $manifestData['Response']['jsonWorldComponentContentPaths']['en']['DestinyActivityModeDefinition'];
+        $activityModeDefinitionUrl = 'https://www.bungie.net' . $activityModeDefinitionPath;
+        $activityModeResponse = Http::get($activityModeDefinitionUrl);
+
+        if ($activityModeResponse->failed()) {
+            return null;
+        }
+
+        $activityModeData = $activityModeResponse->json();
+
+        foreach ($activityModeData as $mode) {
+            if (isset($mode['displayProperties']['name']) && $mode['displayProperties']['name'] === 'Raid') {
+                return $mode['hash'];
+            }
+        }
+
+        return null;
+    }
+
+    private function getRaidActivities($manifestData, $raidActivityTypeHash)
+    {
         $activityDefinitionPath = $manifestData['Response']['jsonWorldComponentContentPaths']['en']['DestinyActivityDefinition'];
-
-        // Step 3: Fetch the actual data
         $activityDefinitionUrl = 'https://www.bungie.net' . $activityDefinitionPath;
         $activityResponse = Http::get($activityDefinitionUrl);
 
@@ -49,14 +87,9 @@ class ChecklistController extends Controller
 
         $activityData = $activityResponse->json();
 
-        dd($activityData);
-
-        // Step 4: Filter the data to get only raids
-        $raids = collect($activityData)->filter(function ($activity) {
-            return isset($activity['activityTypeHash']) && $activity['activityTypeHash'] == 'raid';
-        });
-
-        dd($raids);
+        $raids = collect($activityData)->filter(function ($activity) use ($raidActivityTypeHash) {
+            return isset($activity['activityTypeHash']) && $activity['activityTypeHash'] == $raidActivityTypeHash;
+        })->values()->all();
 
         return $raids;
     }
