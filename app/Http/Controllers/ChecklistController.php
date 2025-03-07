@@ -36,7 +36,7 @@ class ChecklistController extends Controller
 
         $raids = $this->getRaidActivities($manifestData, $raidActivityTypeHash);
 
-        dd($raid[0], $raids);
+        dd($raids[0], $raids);
         return $raids;
     }
 
