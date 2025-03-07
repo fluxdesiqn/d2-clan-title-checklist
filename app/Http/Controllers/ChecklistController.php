@@ -43,6 +43,7 @@ class ChecklistController extends Controller
     private function getGuardianTitles($guardians)
     {
         $apiKey = env('BUNGIE_API_KEY');
+        $token = session('bungie_token');
         $titles = [];
 
         foreach ($guardians as $guardian) {
@@ -52,9 +53,8 @@ class ChecklistController extends Controller
             // Make API call to get membership ID
             $membershipResponse = Http::withHeaders([
                 'X-API-Key' => $apiKey,
+                'Authorization' => 'Bearer ' . $token,
             ])->get("https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/{$platform}/{$guardianName}/");
-
-            dd($membershipResponse->json());
 
             if ($membershipResponse->failed() || empty($membershipResponse->json()['Response'])) {
                 continue;
@@ -65,13 +65,12 @@ class ChecklistController extends Controller
             // Make API call to get profile information
             $profileResponse = Http::withHeaders([
                 'X-API-Key' => $apiKey,
+                'Authorization' => 'Bearer ' . $token,
             ])->get("https://www.bungie.net/Platform/Destiny2/{$platform}/Profile/{$membershipId}/?components=900");
 
             if ($profileResponse->failed() || empty($profileResponse->json()['Response'])) {
                 continue;
             }
-
-            dd($profileResponse->json());
 
             $profileData = $profileResponse->json()['Response']['profile']['data'];
 
