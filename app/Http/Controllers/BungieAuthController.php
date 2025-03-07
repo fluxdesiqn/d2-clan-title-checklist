@@ -32,7 +32,7 @@ class BungieAuthController extends Controller
         $token = $response->json();
 
         session()->put('bungie_token', $token);
-        session()->put('bungie_membership_id', $token['membership_id']);
+        session()->put('bungie_membership_id', $request->query('membership_id'));
 
         return redirect('checklist')->with('success', 'Logged in with Bungie!');
     }
