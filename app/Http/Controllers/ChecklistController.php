@@ -31,14 +31,6 @@ class ChecklistController extends Controller
     {
         $guardians = $request->input('guardians');
         $activity = $request->input('activity');
-        $activity_slug = Str::slug($activity);
-
-        dd($activity, $activity_slug);
-
-        $title = Title::where('activity', Str::slug($activity))->first();
-        $token = session('bungie_token');
-
-        dd($title->title_hash, $token);
 
         $titleTriumphs = $this->getTitleTriumphs($activity);
         dd($titleTriumphs);
@@ -94,7 +86,7 @@ class ChecklistController extends Controller
 
     private function getTitleTriumphs($activity)
     {
-        $title = Title::where('activity', Str::slug($activity))->first();
+        $title = Title::where('name', Str::slug($activity))->first();
 
         if (!$title) {
             return response()->json(['error' => 'Title not found'], 404);
@@ -102,8 +94,6 @@ class ChecklistController extends Controller
 
         $apiKey = env('BUNGIE_API_KEY');
         $token = session('bungie_token');
-
-        dd($title->title_hash, $token);
 
         // Make API call to get triumphs required for the title
         $triumphsResponse = Http::withHeaders([
