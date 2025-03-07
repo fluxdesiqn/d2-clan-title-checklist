@@ -30,9 +30,9 @@ class ChecklistController extends Controller
     public function submit(Request $request)
     {
         $guardians = $request->input('guardians');
-        dd($guardians);
+        $activity = $request->input('activity');
 
-        $titleTriumphs = $this->getTitleTriumphs($request->input('activity'));
+        $titleTriumphs = $this->getTitleTriumphs($activity);
         dd($titleTriumphs);
 
         $titles = $this->getGuardianTitles($guardians);

@@ -40,7 +40,7 @@
                             <div class="flex space-x-4 guardian-input" id="guardian-input-{{ $i }}">
                                 <div class="w-1/4">
                                     <label for="platform{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Platform {{ $i }}:</label>
-                                    <select id="platform{{ $i }}" name="guardians[{{ $i }}]['platform']" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                    <select id="platform{{ $i }}" name="guardians[{{ $i }}][platform]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                         <option value="1">Xbox</option>
                                         <option value="2">PSN</option>
                                         <option value="3">Steam</option>
@@ -48,11 +48,11 @@
                                 </div>
                                 <div class="w-1/4">
                                     <label for="guardian{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Guardian {{ $i }}:</label>
-                                    <input type="text" id="guardian{{ $i }}" name="guardians[{{ $i }}]['name']" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                    <input type="text" id="guardian{{ $i }}" name="guardians[{{ $i }}][name]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 </div>
                                 <div class="w-1/2">
                                     <label for="code{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Code {{ $i }}:</label>
-                                    <input type="text" id="code{{ $i }}" name="guardians[{{ $i }}]['code']" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                    <input type="text" id="code{{ $i }}" name="guardians[{{ $i }}][code]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 </div>
                             </div>
                         @endfor
