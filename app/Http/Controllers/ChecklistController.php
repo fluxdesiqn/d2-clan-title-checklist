@@ -22,7 +22,7 @@ class ChecklistController extends Controller
     private function getRaids()
     {
         $apiKey = env('BUNGIE_API_KEY');
-        $token = Session::get('bungie_token')['access_token'];
+        $token = Session::get('bungie_token');
 
         $manifestData = $this->getManifest($apiKey, $token);
         if (empty($manifestData)) {
