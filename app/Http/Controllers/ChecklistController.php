@@ -17,6 +17,7 @@ class ChecklistController extends Controller
     public function index()
     {
         $raids = $this->raidService->getRaids();
+        dd($raids);
         return view('checklist', compact('raids'));
     }
 
