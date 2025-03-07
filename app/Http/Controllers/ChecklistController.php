@@ -31,6 +31,9 @@ class ChecklistController extends Controller
     {
         $guardians = $request->input('guardians');
         $activity = $request->input('activity');
+        $activity_slug = Str::slug($activity);
+
+        dd($activity, $activity_slug);
 
         $title = Title::where('activity', Str::slug($activity))->first();
         $token = session('bungie_token');
