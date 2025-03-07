@@ -105,6 +105,8 @@ class ChecklistController extends Controller
             return response()->json(['error' => 'Failed to fetch triumphs'], 500);
         }
 
+        dd($triumphsResponse->json(), $title->title_hash, $token);
+
         $triumphsData = $triumphsResponse->json()['Response']['completionInfo']['requirements']['records'];
 
         $data = [
