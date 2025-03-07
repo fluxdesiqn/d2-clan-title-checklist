@@ -49,6 +49,8 @@ class ChecklistController extends Controller
 
         $activityData = $activityResponse->json();
 
+        dd($activityData);
+
         // Step 4: Filter the data to get only raids
         $raids = collect($activityData)->filter(function ($activity) {
             return isset($activity['activityTypeHash']) && $activity['activityTypeHash'] == 'raid';
