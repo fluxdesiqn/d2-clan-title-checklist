@@ -26,24 +26,34 @@ class BungieAuthController extends Controller
     {
         // Data from Bungie
         $code = $request->query('code');
+        $state = $request->query('state');
+        $storedState = Session::get('bungie_state');
+
+        // Check if the state matches
+        if ($state !== $storedState) {
+            return redirect('/')->with('error', 'Invalid state parameter');
+        }
+
+        // Data from .env
         $clientId = env('BUNGIE_CLIENT_ID');
         $clientSecret = env('BUNGIE_CLIENT_SECRET');
-        $state = Session::get('bungie_state');
 
-        $response = Http::withHeaders([
+        $response = Http::asForm()->withHeaders([
             'Authorization' => 'Basic ' . base64_encode($clientId . ':' . $clientSecret),
         ])->post('https://www.bungie.net/platform/app/oauth/token/', [
             'grant_type' => 'authorization_code',
             'code' => $code,
-            'state' => $state,
+            'state' => $storedState,
         ]);
+
+        if ($response->failed()) {
+            return redirect('/')->with('error', 'Failed to get OAuth token from Bungie');
+        }
 
         $token = $response->json();
 
-        dd($token);
-
         session()->put('bungie_token', $token);
-        session()->put('bungie_membership_id', $request->query('membership_id'));
+        session()->put('bungie_membership_id', $token['membership_id'] ?? null);
 
         return redirect('checklist')->with('success', 'Logged in with Bungie!');
     }
