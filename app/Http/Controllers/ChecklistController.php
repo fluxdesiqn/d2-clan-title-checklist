@@ -94,21 +94,38 @@ class ChecklistController extends Controller
 
         $apiKey = env('BUNGIE_API_KEY');
         $token = session('bungie_token');
-        dd($title->title_hash, $token);
 
-        // Make API call to get triumphs required for the title
-        $triumphsResponse = Http::withHeaders([
+        // Make API call to get manifest data
+        $manifestResponse = Http::withHeaders([
             'X-API-Key' => $apiKey,
             'Authorization' => 'Bearer ' . $token,
-        ])->get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyRecordDefinition/{$title->title_hash}/");
+        ])->get("https://www.bungie.net/Platform/Destiny2/Manifest/");
 
-        if ($triumphsResponse->failed() || empty($triumphsResponse->json()['Response'])) {
-            return response()->json(['error' => 'Failed to fetch triumphs'], 500);
+        if ($manifestResponse->failed() || empty($manifestResponse->json()['Response'])) {
+            return response()->json(['error' => 'Failed to fetch manifest'], 500);
         }
 
-        dd($triumphsResponse->json(), $title->title_hash, $token);
+        $manifestData = $manifestResponse->json();
+        $recordDefinitionPath = $manifestData['Response']['jsonWorldComponentContentPaths']['en']['DestinyRecordDefinition'];
+        $recordDefinitionUrl = 'https://www.bungie.net' . $recordDefinitionPath;
 
-        $triumphsData = $triumphsResponse->json()['Response']['completionInfo']['requirements']['records'];
+        // Make API call to get DestinyRecordDefinition
+        $recordResponse = Http::get($recordDefinitionUrl);
+
+        if ($recordResponse->failed() || empty($recordResponse->json())) {
+            return response()->json(['error' => 'Failed to fetch DestinyRecordDefinition'], 500);
+        }
+
+        $recordData = $recordResponse->json();
+
+        if (!isset($recordData[$title->title_hash])) {
+            return response()->json(['error' => 'Title hash not found in DestinyRecordDefinition'], 404);
+        }
+
+        dd($recordData);
+
+        $titleData = $recordData[$title->title_hash];
+        $triumphsData = $titleData['completionInfo']['requirements']['records'] ?? [];
 
         $data = [
             'title' => $title->name,
