@@ -112,6 +112,8 @@ class ChecklistController extends Controller
             'Authorization' => 'Bearer ' . $token,
         ])->get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyRecordDefinition/{$title->title_hash}/");
 
+        dd($triumphsResponse->json(), $title->title_hash, $token);
+
         if ($triumphsResponse->failed() || empty($triumphsResponse->json()['Response'])) {
             return response()->json(['error' => 'Failed to fetch triumphs'], 500);
         }
