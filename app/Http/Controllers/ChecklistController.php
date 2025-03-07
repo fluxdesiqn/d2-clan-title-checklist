@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class ChecklistController extends Controller
 {
@@ -13,7 +14,7 @@ class ChecklistController extends Controller
         return view('checklist', compact('raids'));
     }
 
-    public function submit()
+    public function submit(Request $request)
     {
         // Submit the checklist
     }
@@ -21,8 +22,11 @@ class ChecklistController extends Controller
     private function getRaids()
     {
         $apiKey = env('BUNGIE_API_KEY');
+        $token = Session::get('bungie_token');
+
         $response = Http::withHeaders([
             'X-API-Key' => $apiKey,
+            'Authorization' => 'Bearer ' . $token,
         ])->get('https://www.bungie.net/Platform/Destiny2/Manifest/DestinyActivityDefinition/');
 
         $data = $response->json();
