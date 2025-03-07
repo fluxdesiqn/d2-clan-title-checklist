@@ -13,8 +13,15 @@
                         @csrf
                         <div class="flex space-x-4">
                             <div class="flex-1">
-                                <label for="raid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Raid:</label>
-                                <select id="raid" name="raid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                <label for="activityType" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Activity Type:</label>
+                                <select id="activityType" name="activityType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" onchange="updateForm()">
+                                    <option value="raid">Raid</option>
+                                    <option value="dungeon">Dungeon</option>
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <label for="activity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Activity:</label>
+                                <select id="activity" name="activity" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                     @foreach ($raids as $raidName)
                                         <option value="{{ $raidName }}">{{ $raidName }}</option>
                                     @endforeach
@@ -30,8 +37,8 @@
                             </div>
                         </div>
                         @for ($i = 1; $i <= 6; $i++)
-                            <div class="flex space-x-4">
-                                <div class="w-1/3">
+                            <div class="flex space-x-4 guardian-input" id="guardian-input-{{ $i }}">
+                                <div class="w-1/4">
                                     <label for="platform{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Platform {{ $i }}:</label>
                                     <select id="platform{{ $i }}" name="platform{{ $i }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                         <option value="1">Xbox</option>
@@ -39,9 +46,13 @@
                                         <option value="3">Steam</option>
                                     </select>
                                 </div>
-                                <div class="w-2/3">
+                                <div class="w-1/4">
                                     <label for="guardian{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Guardian {{ $i }}:</label>
                                     <input type="text" id="guardian{{ $i }}" name="guardian{{ $i }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                </div>
+                                <div class="w-1/2">
+                                    <label for="code{{ $i }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Code {{ $i }}:</label>
+                                    <input type="text" id="code{{ $i }}" name="code{{ $i }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 </div>
                             </div>
                         @endfor
@@ -53,4 +64,8 @@
             </div>
         </div>
     </div>
+    <script>
+        const raids = @json($raids);
+        const dungeons = @json($dungeons);
+    </script>
 </x-main-layout>
